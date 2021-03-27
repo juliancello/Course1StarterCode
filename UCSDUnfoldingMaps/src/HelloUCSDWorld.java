@@ -1,3 +1,4 @@
+import module1.HelloWorld;
 import processing.core.PApplet;
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.geo.Location;
@@ -14,7 +15,7 @@ public class HelloUCSDWorld extends PApplet {
 	UnfoldingMap map;
 
 	public void setup() {
-		size(800, 600, OPENGL);
+		size(800, 600);
 
 		map = new UnfoldingMap(this, new Google.GoogleTerrainProvider());
 		map.zoomAndPanTo(14, new Location(32.881, -117.238)); // UCSD
@@ -26,5 +27,8 @@ public class HelloUCSDWorld extends PApplet {
 		background(0);
 		map.draw();
 	}
-
+	public static void main (String... args) {
+		HelloUCSDWorld pt = new HelloUCSDWorld();
+		PApplet.runSketch(new String[]{"HelloUCSDWorld"}, pt);
+	}
 }
