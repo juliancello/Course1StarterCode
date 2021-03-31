@@ -65,18 +65,19 @@ public class HelloWorld extends PApplet
 		// The 6th argument specifies the map provider.  
 		// There are several providers built-in.
 		// Note if you are working offline you must use the MBTilesMapProvider
-		map1 = new UnfoldingMap(this, 50, 50, 350, 500, provider);
-
+		map1 = new UnfoldingMap(this, 50, 50, 0, 250, provider);
 		// The next line zooms in and centers the map at 
 	    // 32.9 (latitude) and -117.2 (longitude)
 	    map1.zoomAndPanTo(zoomLevel, new Location(32.9f, -117.2f));
-		
 		// This line makes the map interactive
-		MapUtils.createDefaultEventDispatcher(this, map1);
+		//MapUtils.createDefaultEventDispatcher(this, map1);
 		
 		// TODO: Add code here that creates map2 
 		// Then you'll modify draw() below
-
+		map2 = new UnfoldingMap(this, 50, 50, 0, 50, provider);
+		// 45.5428679,-122.7944128
+		map2.zoomAndPanTo(zoomLevel, new Location(45.5f, -122.8f)); // change these coordinates
+		MapUtils.createDefaultEventDispatcher(this, map1, map2);
 	}
 
 	/** Draw the Applet window.  */
@@ -84,6 +85,7 @@ public class HelloWorld extends PApplet
 		// So far we only draw map1...
 		// TODO: Add code so that both maps are displayed
 		map1.draw();
+		map2.draw();
 	}
 	public static void main (String... args) {
 		HelloWorld pt = new HelloWorld();

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //Processing library
+import module1.HelloWorld;
 import processing.core.PApplet;
 
 //Unfolding libraries
@@ -51,7 +52,7 @@ public class EarthquakeCityMap extends PApplet {
 
 	
 	public void setup() {
-		size(950, 600, OPENGL);
+		size(950, 600);
 
 		if (offline) {
 		    map = new UnfoldingMap(this, 200, 50, 700, 500, new MBTilesMapProvider(mbTilesString));
@@ -135,5 +136,9 @@ public class EarthquakeCityMap extends PApplet {
 	{	
 		// Remember you can use Processing's graphics methods here
 	
+	}
+	public static void main (String... args) {
+		EarthquakeCityMap pt = new EarthquakeCityMap();
+		PApplet.runSketch(new String[]{"EarthquakeCityMap"}, pt);
 	}
 }
