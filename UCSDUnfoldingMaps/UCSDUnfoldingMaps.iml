@@ -21,7 +21,7 @@
       <sourceFolder url="file://$MODULE_DIR$/data" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="JavaSE-15" jdkType="JavaSDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library" exported="">
       <library name="core.jar">
@@ -32,7 +32,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="gluegen-rt.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/gluegen-rt.jar!/" />
@@ -53,7 +53,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="log4j-1.2.15.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/log4j-1.2.15.jar!/" />
@@ -62,7 +62,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="sqlite-jdbc-3.7.2.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/sqlite-jdbc-3.7.2.jar!/" />
@@ -71,7 +71,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="json4processing.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/json4processing.jar!/" />
@@ -80,7 +80,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="libTUIO.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/libTUIO.jar!/" />
@@ -89,7 +89,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library name="unfolding.0.9.7-uscd.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/unfolding.0.9.7-uscd.jar!/" />
@@ -99,5 +99,27 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="lwjgl-opengl-3.2.3" level="project" />
+    <orderEntry type="library" exported="" name="gluegen-rt" level="project" />
+    <orderEntry type="library" exported="" name="jogl-all" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../jogamp.org/deployment/archive/master/gluegen_937-joal_660-jogl_1506-jocl_1147/jar/jogl-all-natives-macosx-universal.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../jogamp.org/deployment/archive/master/gluegen_937-joal_660-jogl_1506-jocl_1147/jar/gluegen-rt-natives-macosx-universal.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" exported="" name="gluegen-rt-natives-macosx-universal" level="application" />
+    <orderEntry type="library" exported="" name="jogl-all-natives-macosx-universal" level="application" />
   </component>
 </module>
