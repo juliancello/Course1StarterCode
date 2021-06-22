@@ -99,27 +99,9 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="lwjgl-opengl-3.2.3" level="project" />
-    <orderEntry type="library" exported="" name="gluegen-rt" level="project" />
+    <orderEntry type="library" exported="" name="jogl-all-natives-macosx-universal" level="project" />
+    <orderEntry type="library" exported="" name="gluegen-rt-natives-macosx-universal" level="project" />
     <orderEntry type="library" exported="" name="jogl-all" level="project" />
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../jogamp.org/deployment/archive/master/gluegen_937-joal_660-jogl_1506-jocl_1147/jar/jogl-all-natives-macosx-universal.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../jogamp.org/deployment/archive/master/gluegen_937-joal_660-jogl_1506-jocl_1147/jar/gluegen-rt-natives-macosx-universal.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="library" exported="" name="gluegen-rt-natives-macosx-universal" level="application" />
-    <orderEntry type="library" exported="" name="jogl-all-natives-macosx-universal" level="application" />
+    <orderEntry type="library" exported="" name="gluegen-rt" level="project" />
   </component>
 </module>
