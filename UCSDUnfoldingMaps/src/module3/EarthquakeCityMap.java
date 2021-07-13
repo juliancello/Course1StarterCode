@@ -53,9 +53,12 @@ public class EarthquakeCityMap extends PApplet {
 	//feed with magnitude 2.5+ Earthquakes
 	private String earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
 
+	private final int BLUE = color(0, 0, 255);
+	private final int YELLOW = color(255, 255, 0);
+	private final int RED = color(255, 0, 0);
 	
 	public void setup() {
-		size(1050, 600);
+		size(1050, 600); // x,y
 
 		if (offline) {
 		    map = new UnfoldingMap(this, 200, 50, 700, 500, new MBTilesMapProvider(mbTilesString));
@@ -116,10 +119,7 @@ public class EarthquakeCityMap extends PApplet {
 		float mag = Float.parseFloat(magObj.toString());
 		
 		// Here is an example of how to use Processing's color method to generate 
-	    // an int that represents the color yellow.
-		int blue = color(0, 0, 255);
-	    int yellow = color(255, 255, 0);
-	    int red = color(255, 0, 0);
+	    // an int that represents the color YELLOW.
 		
 		// TODO (Step 4): Add code below to style the marker's size and color 
 	    // according to the magnitude of the earthquake.  
@@ -129,15 +129,15 @@ public class EarthquakeCityMap extends PApplet {
 	    // the magnitude to these variables (and change their value in the code 
 	    // above if you want to change what you mean by "moderate" and "light")
 		if (mag < THRESHOLD_LIGHT){
-			marker.setColor(blue);
+			marker.setColor(BLUE);
 			marker.setRadius(10);
 		}
 		else if (mag >= THRESHOLD_LIGHT && mag < THRESHOLD_MODERATE){
-			marker.setColor(yellow);
+			marker.setColor(YELLOW);
 			marker.setRadius(15);
 		}
 		else if (mag >= THRESHOLD_MODERATE){
-			marker.setColor(red);
+			marker.setColor(RED);
 			marker.setRadius(30);
 		}
 	    
@@ -158,12 +158,21 @@ public class EarthquakeCityMap extends PApplet {
 	{	
 		// Remember you can use Processing's graphics methods here
 		fill(200);
-		rect(50, 50, 250, 300); // x, y, w, h
+		rect(50, 100, 250, 300); // x, y, w, h
 		fill(0);
-		textSize(28);
-		text("Earthquake Key", 145, 100);
+		textSize(20);
+		text("Earthquake Key", 100, 150);
 		textSize(16);
-		text("5.0+ Magnitude", 0, 0); // TODO
+		text("5.0+ Magnitude", 75, 210);
+		text("4.0-4.9 Magnitude", 75, 280);
+		text(">4.0 Magnitude", 75, 350);
+		fill(RED);
+		ellipse(250, 205, 30, 30);
+		fill(YELLOW);
+		ellipse(250, 275, 15, 15);
+		fill(BLUE);
+		ellipse(250, 345, 10, 10);
+
 	
 	}
 	public static void main (String... args) {
