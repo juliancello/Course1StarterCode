@@ -111,7 +111,7 @@ public class EarthquakeCityMap extends PApplet {
 	    }
 
 	    // could be used for debugging
-	    printQuakes();
+	    printQuakes(quakeMarkers, earthquakes);
 	 		
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
@@ -169,8 +169,10 @@ public class EarthquakeCityMap extends PApplet {
 		// and a Marker as input.  
 		// If isInCountry ever returns true, isLand should return true.
 		for (Marker m : countryMarkers) {
-			// TODO: Finish this method using the helper method isInCountry
-			
+			// DONE: Finish this method using the helper method isInCountry
+			if (isInCountry(earthquake, m)) {
+				return true;
+			} // pass PointFeature earthquake, Marker country to isInCountry
 		}
 		
 		
@@ -184,7 +186,7 @@ public class EarthquakeCityMap extends PApplet {
 	 * ...
 	 * OCEAN QUAKES: numOceanQuakes
 	 * */
-	private void printQuakes() 
+	private void printQuakes(List<Marker> quakeMarkers, List<PointFeature> earthquakes)
 	{
 		// TODO: Implement this method
 		// One (inefficient but correct) approach is to:
@@ -197,6 +199,18 @@ public class EarthquakeCityMap extends PApplet {
 		//     	and (2) if it is on land, that its country property matches 
 		//      the name property of the country marker.   If so, increment
 		//      the country's counter.
+
+		for (Marker cm : countryMarkers){
+			int counter = 0;
+			for (Marker eq : quakeMarkers){
+				if (isLand((PointFeature)eq)) {
+					if (eq.getProperty("country") == cm.getProperty("country")){ counter++; }
+					}
+				}
+			System.out.println(cm.getProperty("country") + ":" + counter);
+			}
+		//
+
 		
 		// Here is some code you will find useful:
 		// 
@@ -210,8 +224,8 @@ public class EarthquakeCityMap extends PApplet {
 		//  * If you know your Marker, m, is a LandQuakeMarker, then it has a "country" 
 		//      property set.  You can get the country with:
 		//        String country = (String)m.getProperty("country");
-		
-		
+
+
 	}
 	
 	
