@@ -117,7 +117,7 @@ public class EarthquakeCityMap extends PApplet {
 	    }
 
 	    // could be used for debugging
-	    printQuakes(earthquakes);
+	    printQuakes();
 	 		
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
@@ -192,9 +192,8 @@ public class EarthquakeCityMap extends PApplet {
 	 * ...
 	 * OCEAN QUAKES: numOceanQuakes
 	 * */
-	private void printQuakes(List<PointFeature> earthquakes)
+	private void printQuakes()
 	{
-		// TODO: Implement this method
 		// One (inefficient but correct) approach is to:
 		//   Loop over all of the countries, e.g. using 
 		//        for (Marker cm : countryMarkers) { ... }
@@ -219,7 +218,8 @@ public class EarthquakeCityMap extends PApplet {
 					}
 				}
 			}
-			System.out.println(cm.getProperty("name") + ":" + counter);
+			if(counter > 0){System.out.println(cm.getProperty("name") + ":" + counter);}
+//			System.out.println(cm.getProperty("name") + ":" + counter);
 			countOceanQuakes = false;
 		}
 //		for (Marker eq : quakeMarkers) {  // debug
