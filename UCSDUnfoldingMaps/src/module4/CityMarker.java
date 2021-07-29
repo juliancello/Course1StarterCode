@@ -35,8 +35,6 @@ public class CityMarker extends SimplePointMarker {
 	public void draw(PGraphics pg, float x, float y) {
 		// Save previous drawing style
 		pg.pushStyle();
-		
-		// TODO: Add code to draw a triangle to represent the CityMarker
 		// HINT: pg is the graphics object on which you call the graphics
 		// methods.  e.g. pg.fill(255, 0, 0) will set the color to red
 		// x and y are the center of the object to draw. 
@@ -45,8 +43,10 @@ public class CityMarker extends SimplePointMarker {
 		// e.g. pg.rect(x, y, 10, 10) will draw a 10x10 square
 		// whose upper left corner is at position x, y
 		// Check out the processing documentation for more methods
-		
-		
+		pg.fill(160, 0, 255);
+//		System.out.println((x+4) + "," + (y+16)+ "," + (x+10)+ "," + (y+2)+ "," + (x+18)+ "," + (y+16)); //debug
+//		209.14526, 395.4939, 215.14526, 381.4939, 223.14526, 395.4939
+		pg.triangle((x-5), (y+5), (x), (y-8), (x+5), (y+5));
 		// Restore previous drawing style
 		pg.popStyle();
 	}
