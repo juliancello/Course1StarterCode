@@ -13,7 +13,8 @@ public class OceanQuakeMarker extends EarthquakeMarker {
 	
 	public OceanQuakeMarker(PointFeature quake) {
 		super(quake);
-		
+		this.radius = getRadius();
+//		System.out.println("Ocean this.radius " + radius); // debug
 		// setting field in earthquake marker
 		isOnLand = false;
 	}
@@ -29,7 +30,9 @@ public class OceanQuakeMarker extends EarthquakeMarker {
 		// HINT: Notice the radius variable in the EarthquakeMarker class
 		// and how it is set in the EarthquakeMarker constructor
 		
-		// TODO: Implement this method
+		if (radius > THRESHOLD_MODERATE){pg.rect(x, y, radius*1.5f, radius*1.5f);}
+		else if (radius > THRESHOLD_LIGHT && radius <= THRESHOLD_MODERATE){pg.rect(x, y, radius*1.5f, radius*1.5f);}
+		else if (radius <= THRESHOLD_LIGHT){pg.rect(x, y, radius, radius);}
 		
 	}
 	

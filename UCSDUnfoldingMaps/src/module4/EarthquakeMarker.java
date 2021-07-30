@@ -81,6 +81,20 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	// You might find the getters below helpful.
 	private void colorDetermine(PGraphics pg) {
 		//TODO: Implement this method
+//		fill(color(160, 0, 255));
+//		triangle(45, 130, 50, 117, 55, 130);
+//		fill(color(255, 0, 0));
+//		ellipse(50, 175, 15, 15); // x, y, r1, r2
+//		fill(color(255, 255, 0));
+//		ellipse(50, 225, 10, 10);
+//		fill(color(0, 0, 255));
+//		ellipse(50, 275, 5, 5);
+		float depth = getDepth();
+		if (depth > THRESHOLD_DEEP){pg.fill(255, 0, 0);} // red deep
+		else if (depth <= THRESHOLD_DEEP && depth > THRESHOLD_INTERMEDIATE){pg.fill(255, 255, 0);} // yellow intermediate
+		else if (depth <= THRESHOLD_INTERMEDIATE){pg.fill(100, 100, 255);} // blue shallow
+//		System.out.println("getDepth()  " + depth); // debug
+
 	}
 	
 	

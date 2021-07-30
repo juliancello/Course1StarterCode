@@ -16,7 +16,7 @@ public class LandQuakeMarker extends EarthquakeMarker {
 		
 		// calling EarthquakeMarker constructor
 		super(quake);
-		
+		this.radius = getRadius();
 		// setting field in earthquake marker
 		isOnLand = true;
 	}
@@ -32,8 +32,10 @@ public class LandQuakeMarker extends EarthquakeMarker {
 		// HINT: Notice the radius variable in the EarthquakeMarker class
 		// and how it is set in the EarthquakeMarker constructor
 		
-		// TODO: Implement this method
-		
+		// From CityMarker
+		if (radius > THRESHOLD_MODERATE){pg.ellipse(x, y, radius*2, radius*2);}
+		else if (radius > THRESHOLD_LIGHT && radius <= THRESHOLD_MODERATE){pg.ellipse(x, y, radius*2, radius*2);}
+		else if (radius <= THRESHOLD_LIGHT){pg.ellipse(x, y, radius*1.5f, radius*1.5f);}
 	}
 	
 
@@ -42,7 +44,7 @@ public class LandQuakeMarker extends EarthquakeMarker {
 		return (String) getProperty("country");
 	}
 
-
+	public float getRadius() {return (Float) getProperty("radius");}
 
 		
 }

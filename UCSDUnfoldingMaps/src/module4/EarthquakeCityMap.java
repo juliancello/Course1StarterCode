@@ -12,6 +12,7 @@ import de.fhpotsdam.unfolding.marker.AbstractShapeMarker;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
 import de.fhpotsdam.unfolding.providers.Google;
+import de.fhpotsdam.unfolding.providers.Microsoft;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
@@ -36,6 +37,7 @@ public class EarthquakeCityMap extends PApplet {
 
 	// IF YOU ARE WORKING OFFILINE, change the value of this variable to true
 	private static final boolean offline = false;
+	private static final boolean googleIsBroken = true;
 	
 	/** This is where to find the local tiles, for working without an Internet connection */
 	public static String mbTilesString = "blankLight-1-3.mbtiles";
@@ -62,25 +64,30 @@ public class EarthquakeCityMap extends PApplet {
 	
 	public void setup() {		
 		// (1) Initializing canvas and map tiles
-		size(900, 700, OPENGL);
+//		size(900, 700);
+		size(1050, 800);
 		if (offline) {
-		    map = new UnfoldingMap(this, 200, 50, 650, 600, new MBTilesMapProvider(mbTilesString));
-		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
+			map = new UnfoldingMap(this, 200, 50, 650, 600, new MBTilesMapProvider(mbTilesString));
+			earthquakesURL = "2.5_week.atom"; 	// Same feed, saved Aug 7, 2015, for working offline
 		}
+		else if (googleIsBroken) {
+			map = new UnfoldingMap(this, 300, 100, 650, 600, new Microsoft.HybridProvider());
+		}
+
 		else {
 			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
-		    //earthquakesURL = "2.5_week.atom";
+			//earthquakesURL = "2.5_week.atom";
 		}
 		MapUtils.createDefaultEventDispatcher(this, map);
 		
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
-		//earthquakesURL = "test1.atom";
+//		earthquakesURL = "test1.atom";
 		//earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
-		//earthquakesURL = "quiz1.atom";
+//		earthquakesURL = "quiz1.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -134,24 +141,33 @@ public class EarthquakeCityMap extends PApplet {
 	private void addKey() {	
 		// Remember you can use Processing's graphics methods here
 		fill(255, 250, 240);
-		rect(25, 50, 150, 250);
+		rect(25, 50, 150, 300);  // x, y, w, h
 		
 		fill(0);
 		textAlign(LEFT, CENTER);
 		textSize(12);
 		text("Earthquake Key", 50, 75);
-		
-		fill(color(255, 0, 0));
-		ellipse(50, 125, 15, 15);
+
+		fill(color(160, 0, 160)); // City
+		triangle(45, 105, 50, 92, 55, 105);
+		fill(color(255, 255, 255)); // 5.0+
+		ellipse(50, 125, 15, 15); // x, y, r1, r2
+		rect(42.5f, 145, 15, 15);
+		fill(color(100, 100, 255));
+		ellipse(50, 225, 10, 10); // Shallow
 		fill(color(255, 255, 0));
-		ellipse(50, 175, 10, 10);
-		fill(color(0, 0, 255));
-		ellipse(50, 225, 5, 5);
-		
+		ellipse(50, 250, 10, 10); // Intermediate
+		fill(color(255, 0, 0));
+		ellipse(50, 275, 10, 10); // Deep
+
 		fill(0, 0, 0);
-		text("5.0+ Magnitude", 75, 125);
-		text("4.0+ Magnitude", 75, 175);
-		text("Below 4.0", 75, 225);
+		text("City Marker", 75, 100);
+		text("Land Quake", 75, 125);
+		text("Ocean Quake", 75, 150);
+		text("Size - Magnitude", 50, 200);
+		text("Shallow", 75, 225);
+		text("Intermediate", 75, 250);
+		text("Deep", 75, 275);
 	}
 
 	
@@ -160,7 +176,7 @@ public class EarthquakeCityMap extends PApplet {
 	// "country" property of its PointFeature to the country where it occurred
 	// and returns true.  Notice that the helper method isInCountry will
 	// set this "country" property already.  Otherwise it returns false.
-	private boolean isLand(PointFeature earthquake) {
+	private boolean isLand(Feature earthquake) {
 		
 		
 		// Loop over all the country markers.  
@@ -169,8 +185,10 @@ public class EarthquakeCityMap extends PApplet {
 		// and a Marker as input.  
 		// If isInCountry ever returns true, isLand should return true.
 		for (Marker m : countryMarkers) {
-			// TODO: Finish this method using the helper method isInCountry
-			
+			// DONE: Finish this method using the helper method isInCountry
+			if (isInCountry((PointFeature) earthquake, m)) {
+				return true;
+			} // pass PointFeature earthquake, Marker country to isInCountry
 		}
 		
 		
@@ -184,34 +202,26 @@ public class EarthquakeCityMap extends PApplet {
 	 * ...
 	 * OCEAN QUAKES: numOceanQuakes
 	 * */
-	private void printQuakes() 
+	private void printQuakes()
 	{
-		// TODO: Implement this method
-		// One (inefficient but correct) approach is to:
-		//   Loop over all of the countries, e.g. using 
-		//        for (Marker cm : countryMarkers) { ... }
-		//        
-		//      Inside the loop, first initialize a quake counter.
-		//      Then loop through all of the earthquake
-		//      markers and check to see whether (1) that marker is on land
-		//     	and (2) if it is on land, that its country property matches 
-		//      the name property of the country marker.   If so, increment
-		//      the country's counter.
-		
-		// Here is some code you will find useful:
-		// 
-		//  * To get the name of a country from a country marker in variable cm, use:
-		//     String name = (String)cm.getProperty("name");
-		//  * If you have a reference to a Marker m, but you know the underlying object
-		//    is an EarthquakeMarker, you can cast it:
-		//       EarthquakeMarker em = (EarthquakeMarker)m;
-		//    Then em can access the methods of the EarthquakeMarker class 
-		//       (e.g. isOnLand)
-		//  * If you know your Marker, m, is a LandQuakeMarker, then it has a "country" 
-		//      property set.  You can get the country with:
-		//        String country = (String)m.getProperty("country");
-		
-		
+		int oceanCounter = 0;
+		boolean countOceanQuakes = true;
+		for (Marker cm : countryMarkers) {
+			int counter = 0;
+			for (Marker eq : quakeMarkers) {
+				if (eq instanceof LandQuakeMarker) {
+					if (((LandQuakeMarker) eq).getCountry() == cm.getProperty("name")) { counter++; }
+//					System.out.println("LandQuake radius: " + ((LandQuakeMarker) eq).getRadius());  // debug
+				} else {
+					if (countOceanQuakes) {
+						oceanCounter++;
+					}
+				}
+			}
+			if(counter > 0){System.out.println(cm.getProperty("name") + ":" + counter);}
+			countOceanQuakes = false;
+		}
+		System.out.println("Ocean quakes:" + oceanCounter);
 	}
 	
 	
@@ -248,6 +258,11 @@ public class EarthquakeCityMap extends PApplet {
 			return true;
 		}
 		return false;
+	}
+
+	public static void main (String... args) {
+		module4.EarthquakeCityMap pt = new module4.EarthquakeCityMap();
+		PApplet.runSketch(new String[]{"EarthquakeCityMap"}, pt);
 	}
 
 }
