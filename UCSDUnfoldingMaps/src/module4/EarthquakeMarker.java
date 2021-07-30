@@ -90,9 +90,9 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 //		fill(color(0, 0, 255));
 //		ellipse(50, 275, 5, 5);
 		float depth = getDepth();
-		if (depth > THRESHOLD_DEEP){pg.fill(255, 0, 0);}
-		else if (depth <= THRESHOLD_DEEP && depth > THRESHOLD_INTERMEDIATE){pg.fill(255, 255, 0);}
-		else if (depth <= THRESHOLD_INTERMEDIATE){pg.fill(100, 100, 255);}
+		if (depth > THRESHOLD_DEEP){pg.fill(255, 0, 0);} // red deep
+		else if (depth <= THRESHOLD_DEEP && depth > THRESHOLD_INTERMEDIATE){pg.fill(255, 255, 0);} // yellow intermediate
+		else if (depth <= THRESHOLD_INTERMEDIATE){pg.fill(100, 100, 255);} // blue shallow
 //		System.out.println("getDepth()  " + depth); // debug
 
 	}
