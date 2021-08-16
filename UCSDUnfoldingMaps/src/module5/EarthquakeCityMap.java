@@ -66,7 +66,7 @@ public class EarthquakeCityMap extends PApplet {
 	
 	public void setup() {		
 		// (1) Initializing canvas and map tiles
-		size(900, 700, OPENGL);  // TODO may have to remove OPENGL arg
+		size(900, 700);  // TODO may have to remove OPENGL arg
 
 		if (offline) {
 			map = new UnfoldingMap(this, 200, 50, 650, 600, new MBTilesMapProvider(mbTilesString));
@@ -82,7 +82,7 @@ public class EarthquakeCityMap extends PApplet {
 //		    earthquakesURL = "2.5_week.atom";
 		}
 		MapUtils.createDefaultEventDispatcher(this, map);
-		
+		System.out.println(mouseY);  // debug
 		
 		// (2) Reading in earthquake data and geometric properties
 	    //     STEP 1: load country features and markers
@@ -142,6 +142,7 @@ public class EarthquakeCityMap extends PApplet {
 			lastSelected = null;
 		
 		}
+//		System.out.println("mouseMoved");  // debug
 		selectMarkerIfHover(quakeMarkers);
 		selectMarkerIfHover(cityMarkers);
 	}
@@ -153,10 +154,15 @@ public class EarthquakeCityMap extends PApplet {
 	private void selectMarkerIfHover(List<Marker> markers)
 	{
 		// TODO: Implement this method
-		System.out.println(mouseX);  // debug
-		System.out.println(mouseY);  // debug
+//		System.out.println(mouseX);  // debug
+//		System.out.println(mouseY);  // debug
 		for(Marker marker : markers){
 //			System.out.println(marker.getProperties());
+			if (marker.isInside(map, mouseX, mouseY)) {
+				lastSelected = (CommonMarker)marker;
+				lastSelected.setSelected(true);
+//				System.out.println("schmaow");  // debug
+			}
 		}
 	}
 	
@@ -171,8 +177,9 @@ public class EarthquakeCityMap extends PApplet {
 		// TODO: Implement this method
 		// Hint: You probably want a helper method or two to keep this code
 		// from getting too long/disorganized
-		System.out.println(mouseX);  // debug
-		System.out.println(mouseY);  // debug
+//		System.out.println(mouseX);  // debug
+//		System.out.println(mouseY);  // debug
+//		System.out.println("clicked");  // debug
 	}
 	
 	
@@ -327,6 +334,11 @@ public class EarthquakeCityMap extends PApplet {
 			return true;
 		}
 		return false;
+	}
+
+	public static void main (String... args) {
+		module5.EarthquakeCityMap pt = new module5.EarthquakeCityMap();
+		PApplet.runSketch(new String[]{"EarthquakeCityMap"}, pt);
 	}
 
 }

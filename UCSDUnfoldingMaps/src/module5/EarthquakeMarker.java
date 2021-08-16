@@ -94,7 +94,10 @@ public abstract class EarthquakeMarker extends CommonMarker
 	public void showTitle(PGraphics pg, float x, float y)
 	{
 		// TODO: Implement this method
-		
+		pg.text(this.getTitle(), x, y); // TODO hide title when marker is unselected
+		// TODO make title closer to marker
+//		System.out.println("showTitle debug");
+//		System.out.println(this.getTitle());
 	}
 
 	
