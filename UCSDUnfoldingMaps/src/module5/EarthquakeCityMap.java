@@ -66,7 +66,7 @@ public class EarthquakeCityMap extends PApplet {
 	
 	public void setup() {		
 		// (1) Initializing canvas and map tiles
-		size(900, 700);  // TODO may have to remove OPENGL arg
+		size(900, 700);
 
 		if (offline) {
 			map = new UnfoldingMap(this, 200, 50, 650, 600, new MBTilesMapProvider(mbTilesString));
@@ -153,15 +153,14 @@ public class EarthquakeCityMap extends PApplet {
 	// 
 	private void selectMarkerIfHover(List<Marker> markers)
 	{
-		// TODO: Implement this method
-//		System.out.println(mouseX);  // debug
-//		System.out.println(mouseY);  // debug
 		for(Marker marker : markers){
-//			System.out.println(marker.getProperties());
 			if (marker.isInside(map, mouseX, mouseY)) {
-				lastSelected = (CommonMarker)marker;
-				lastSelected.setSelected(true);
-//				System.out.println("schmaow");  // debug
+				{
+					marker.setSelected(true);
+					if(lastSelected==null)
+						lastSelected=(CommonMarker)marker;
+					break;
+				}
 			}
 		}
 	}
@@ -174,12 +173,91 @@ public class EarthquakeCityMap extends PApplet {
 	@Override
 	public void mouseClicked()
 	{
-		// TODO: Implement this method
+		// Author: Hugo Huang
 		// Hint: You probably want a helper method or two to keep this code
 		// from getting too long/disorganized
-//		System.out.println(mouseX);  // debug
-//		System.out.println(mouseY);  // debug
-//		System.out.println("clicked");  // debug
+		if (lastClicked != null) {
+			//lastClicked.setClicked(false);
+			unhideMarkers();
+			lastClicked = null;
+		}
+		else {
+			if(checkEarthquakeMarker() != null) {
+				Marker marker = checkEarthquakeMarker();
+				PrintCity(marker);
+				clean_quakeMarkers();
+				marker.setHidden(false);
+			}
+			else if(checkCityMarker() != null) {
+				Marker marker = checkCityMarker();
+				PrintEarthquake(marker);
+				clean_cityMarkers();
+				marker.setHidden(false);
+			}
+			else {
+				unhideMarkers();
+			}
+		}
+	}
+
+	private Marker checkEarthquakeMarker() {
+		for(Marker marker: quakeMarkers) {
+			if(marker.isInside(map, mouseX, mouseY)) {
+				lastClicked = (CommonMarker) marker;
+				return marker;
+			}
+		}
+		return null;
+	}
+
+	private Marker checkCityMarker() {
+		for(Marker marker: cityMarkers){
+			if(marker.isInside(map, mouseX, mouseY)) {
+				lastClicked = (CommonMarker) marker;
+				return marker;
+			}
+		}
+		return null;
+	}
+
+	private void PrintCity(Marker marker) {
+		double rad = ((EarthquakeMarker)marker).threatCircle();
+		for(Marker city: cityMarkers) {
+			Location point = city.getLocation();
+			double dis = marker.getDistanceTo(point);
+			if(Math.abs(dis) <= Math.abs(rad)) {
+				city.setHidden(false);
+			}
+			else {
+				city.setHidden(true);
+			}
+		}
+	}
+
+	private void clean_quakeMarkers() {
+		for(Marker marker: quakeMarkers){
+			marker.setHidden(true);
+		}
+	}
+
+	private void PrintEarthquake(Marker marker) {
+		Location point = marker.getLocation();
+		for(Marker quakemarker: quakeMarkers) {
+			double dis = quakemarker.getDistanceTo(point);
+			double rad = ((EarthquakeMarker)quakemarker).threatCircle();
+			if(Math.abs(dis) <= Math.abs(rad)) {
+				quakemarker.setHidden(false);
+			}
+			else {
+				quakemarker.setHidden(true);
+			}
+		}
+	}
+
+	private void clean_cityMarkers() {
+		for(Marker marker: cityMarkers){
+			marker.setHidden(true);
+		}
 	}
 	
 	

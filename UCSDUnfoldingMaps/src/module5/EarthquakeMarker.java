@@ -94,8 +94,6 @@ public abstract class EarthquakeMarker extends CommonMarker
 	@Override
 	public void showTitle(PGraphics pg, float x, float y)
 	{
-		// TODO hide title when marker is unselected
-
 		String title = getTitle();
 		pg.pushStyle();
 
