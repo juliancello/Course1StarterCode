@@ -34,7 +34,7 @@ public class CityMarker extends CommonMarker {
 	/**
 	 * Implementation of method to draw marker on the map.
 	 */
-	public void draw(PGraphics pg, float x, float y) {
+	public void draw(PGraphics pg, float x, float y) { // TODO this is serving the purpose of drawMarker (comparing to mod 6)
 		// Save previous drawing style
 		pg.pushStyle();
 		

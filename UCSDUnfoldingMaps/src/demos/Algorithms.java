@@ -57,6 +57,7 @@ public class Algorithms{
         // Do this for the remaining elements after the already sorted elements
         // Skip last element as it is naturally already the biggest
         // Done
+        // Doesn't work. Too many unnecessary getters and if/else blocks
     }
     public void wikiSelectionSort() {
         /* a[0] to a[aLength-1] is the array to sort */
@@ -94,8 +95,36 @@ public class Algorithms{
         System.out.println(arrayToSort);
     }
 
+    public void courseraSelectionSort( int[] vals) {
+        for ( int i=0; i< vals.length-1; i++){
+            int indexMin = i;
+            for (int j=i+1; j< vals.length; j++) {
+                if (vals[j] < vals[indexMin] ){
+                    indexMin = j;
+                }
+            }
+            int temp;
+            temp = vals[i];
+            vals[i] = vals[indexMin]; // switch them
+            vals[indexMin] = temp;
+        }
+        for (int i: vals){
+            System.out.println(i);
+        }
+    }
+
     public static void main (String... args) {
         Algorithms pt = new Algorithms();
+
         pt.wikiSelectionSort();
+        
+        int[] myVals = new int[6];
+        myVals[0] = 5; //5, 0, 1, 10, 2, 9
+        myVals[1] = 0;
+        myVals[2] = 1;
+        myVals[3] = 10;
+        myVals[4] = 2;
+        myVals[5] = 9;
+        pt.courseraSelectionSort(myVals);
     }
 }

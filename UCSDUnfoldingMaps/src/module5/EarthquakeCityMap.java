@@ -151,7 +151,7 @@ public class EarthquakeCityMap extends PApplet {
 	// set the lastSelected to be the first marker found under the cursor
 	// Make sure you do not select two markers.
 	// 
-	private void selectMarkerIfHover(List<Marker> markers)
+	private void selectMarkerIfHover(List<Marker> markers) // TODO compare to module_6's (different)
 	{
 		for(Marker marker : markers){
 			if (marker.isInside(map, mouseX, mouseY)) {
@@ -171,7 +171,7 @@ public class EarthquakeCityMap extends PApplet {
 	 * where the city is in the threat circle
 	 */
 	@Override
-	public void mouseClicked()
+	public void mouseClicked()  // TODO compare to module_6's, including helper methods (different)
 	{
 		// Author: Hugo Huang
 		// Hint: You probably want a helper method or two to keep this code
@@ -200,7 +200,7 @@ public class EarthquakeCityMap extends PApplet {
 		}
 	}
 
-	private Marker checkEarthquakeMarker() {
+	private Marker checkEarthquakeMarker() {  // Shares functionality with checkEarthquakesForClick() line 236
 		for(Marker marker: quakeMarkers) {
 			if(marker.isInside(map, mouseX, mouseY)) {
 				lastClicked = (CommonMarker) marker;
@@ -210,7 +210,7 @@ public class EarthquakeCityMap extends PApplet {
 		return null;
 	}
 
-	private Marker checkCityMarker() {
+	private Marker checkCityMarker() {  // Shares functionality with checkCitiesForClick() line 208
 		for(Marker marker: cityMarkers){
 			if(marker.isInside(map, mouseX, mouseY)) {
 				lastClicked = (CommonMarker) marker;
@@ -220,7 +220,7 @@ public class EarthquakeCityMap extends PApplet {
 		return null;
 	}
 
-	private void PrintCity(Marker marker) {
+	private void PrintCity(Marker marker) {  // Shares functionality with checkCitiesForClick()
 		double rad = ((EarthquakeMarker)marker).threatCircle();
 		for(Marker city: cityMarkers) {
 			Location point = city.getLocation();
@@ -234,13 +234,13 @@ public class EarthquakeCityMap extends PApplet {
 		}
 	}
 
-	private void clean_quakeMarkers() {
+	private void clean_quakeMarkers() {  // Similar to checkCitiesForClick() line 212 in mod 6
 		for(Marker marker: quakeMarkers){
 			marker.setHidden(true);
 		}
 	}
 
-	private void PrintEarthquake(Marker marker) {
+	private void PrintEarthquake(Marker marker) {  // Shares functionality with checkEarthquakesForClick()
 		Location point = marker.getLocation();
 		for(Marker quakemarker: quakeMarkers) {
 			double dis = quakemarker.getDistanceTo(point);
@@ -254,7 +254,7 @@ public class EarthquakeCityMap extends PApplet {
 		}
 	}
 
-	private void clean_cityMarkers() {
+	private void clean_cityMarkers() {  // Similar to checkCitiesForClick() line 219 in mod 6
 		for(Marker marker: cityMarkers){
 			marker.setHidden(true);
 		}
@@ -415,7 +415,7 @@ public class EarthquakeCityMap extends PApplet {
 	}
 
 	public static void main (String... args) {
-		module5.EarthquakeCityMap pt = new module5.EarthquakeCityMap();
+		module5.EarthquakeCityMap pt = new module5.EarthquakeCityMap();  // TODO compare to mod_6 (it is missing this function)
 		PApplet.runSketch(new String[]{"EarthquakeCityMap"}, pt);
 	}
 
