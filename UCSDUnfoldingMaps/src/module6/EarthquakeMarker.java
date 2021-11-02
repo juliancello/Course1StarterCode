@@ -10,7 +10,15 @@ import processing.core.PGraphics;
  *
  */
 // TODO: Implement the comparable interface
-public abstract class EarthquakeMarker extends CommonMarker
+
+/**
+ * Implementing the comparable interface means that since EarthquakeMarker is an abstract class, any child class of it
+ * can be compared to any other child class of EarthquakeMarker. This also means that this class
+ * must implement the method of the Comparable interface so that it is automatically implemented for the child classes.
+ * This is because the comparable interface doesn't automatically know what it should compare between two compatible
+ * objects, so we must define that.
+ */
+public abstract class EarthquakeMarker extends CommonMarker implements Comparable<EarthquakeMarker>
 {
 	
 	// Did the earthquake occur on land?  This will be set by the subclasses.
@@ -56,8 +64,17 @@ public abstract class EarthquakeMarker extends CommonMarker
 	}
 	
 	// TODO: Add the method:
-	// public int compareTo(EarthquakeMarker marker)
-	
+	 public int compareTo(EarthquakeMarker marker) {  // Implement so this helps sort earthquakes in reverse order of magnitude
+		// compare this object to argument object
+		 float a = this.getMagnitude();
+		 float b = marker.getMagnitude();
+		 // if this magnitude is greater
+		 if (a > b){return 1;}
+		 // if both magnitudes are equal
+		 else if (a == b){return 0;}
+		 // else, this magnitude is lesser
+		 else {return -1;}
+	 }
 	
 	// calls abstract method drawEarthquake and then checks age and draws X if needed
 	@Override

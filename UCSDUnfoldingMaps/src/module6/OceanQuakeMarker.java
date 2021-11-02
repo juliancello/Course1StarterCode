@@ -8,7 +8,7 @@ import processing.core.PGraphics;
  * @author UC San Diego Intermediate Software Development MOOC team
  *
  */
-public class OceanQuakeMarker extends EarthquakeMarker {
+public class OceanQuakeMarker extends EarthquakeMarker {  //java: module6.OceanQuakeMarker is not abstract and does not override abstract method compareTo(module6.EarthquakeMarker) in java.lang.Comparable
 	
 	public OceanQuakeMarker(PointFeature quake) {
 		super(quake);
