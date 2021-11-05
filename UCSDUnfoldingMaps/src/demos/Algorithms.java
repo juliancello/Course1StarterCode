@@ -2,6 +2,7 @@ package demos;
 
 import processing.core.PApplet;
 
+//import java.util.Random;
 import java.util.List;
 import java.util.Arrays;
 
@@ -113,18 +114,74 @@ public class Algorithms{
         }
     }
 
-    public static void main (String... args) {
+//    public int[] A = {70, 2, 97, 37, 58, 85, 21, 59, 57, 11, 15, 61, 93, 50, 5, 25, 24, 71, 30, 101}; // unsorted
+//    public List<Integer> A = Arrays.asList(70, 2, 97, 37, 58, 85, 21, 59, 57, 11, 15, 61, 93, 50, 5, 25, 24, 71, 30, 101);
+    public List<Integer> A = Arrays.asList(70, 2, 97, 37, 58, 85, 101);
+
+    public void swap( int first, int second, int ind1, int ind2 ) {
+        System.out.println("preswap A" + A);
+        A.set(ind1, second);
+        A.set(ind2, first);
+        System.out.println("postswap A" + A);
+    }
+
+    public int partition( int low, int high ) {
+        int pivot = A.get(low);
+        int i = low;
+        int j = high;
+        System.out.println("pivot " + pivot);
+        while (i < j){
+            do {
+                i++;
+//                System.out.println("i " + i);
+//                System.out.println("A.get(i) " + A.get(i));
+            } while (A.get(i) <= pivot);
+            do {
+                j--;
+//                System.out.println("j " + j);
+//                System.out.println("A.get(j) " + A.get(j));
+            } while (A.get(j) > pivot);
+            if (i < j){
+                System.out.println("swap1 ");
+                swap(A.get(i), A.get(j), i, j);
+            }
+        System.out.println("swap2 ");
+        swap(A.get(low), A.get(j), low, j);
+        }
+//        System.out.println("returning " + j);
+        return j;
+    }
+
+    public void quickSort(int low, int high) {
+        if (low < high){
+            int j = partition(low, high);
+            System.out.println("low " + low + " j " + j + " j+1 " + (j+1) + " high " + high);
+            this.quickSort(low, j);
+            this.quickSort((j+1), high);
+        }
+        System.out.println("qs A" + A);
+    }
+
+    public void main2 () {
         Algorithms pt = new Algorithms();
 
-        pt.wikiSelectionSort();
-        
-        int[] myVals = new int[6];
-        myVals[0] = 5; //5, 0, 1, 10, 2, 9
-        myVals[1] = 0;
-        myVals[2] = 1;
-        myVals[3] = 10;
-        myVals[4] = 2;
-        myVals[5] = 9;
-        pt.courseraSelectionSort(myVals);
+//        List<Integer> A = Arrays.asList(70, 2, 97, 37, 58, 85, 21, 59, 57, 11, 15, 61, 93, 50, 5, 25, 24, 71, 30, 101);
+//        pt.wikiSelectionSort();
+//
+//        int[] myVals = new int[6];
+//        myVals[0] = 5; //5, 0, 1, 10, 2, 9
+//        myVals[1] = 0;
+//        myVals[2] = 1;
+//        myVals[3] = 10;
+//        myVals[4] = 2;
+//        myVals[5] = 9;
+//        pt.courseraSelectionSort(myVals);
+        pt.quickSort(0, (A.size() - 1));
+        System.out.println(A);
+    }
+
+    public static void main(String... args) {
+        Algorithms pt = new Algorithms();
+        pt.main2();
     }
 }

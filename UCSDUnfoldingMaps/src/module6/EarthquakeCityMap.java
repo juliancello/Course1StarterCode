@@ -81,7 +81,7 @@ public class EarthquakeCityMap extends PApplet {
 		
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
-		//earthquakesURL = "test1.atom";
+		earthquakesURL = "test1.atom";
 		//earthquakesURL = "test2.atom";
 		
 		// Uncomment this line to take the quiz
@@ -117,7 +117,7 @@ public class EarthquakeCityMap extends PApplet {
 
 	    // could be used for debugging
 	    printQuakes();
-	 		
+	    sortAndPrint(1);
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
 	    //           for their geometric properties
@@ -134,11 +134,49 @@ public class EarthquakeCityMap extends PApplet {
 		addKey();
 		
 	}
-	
-	
+
+	// Use compareTo to sort earthquakes in reverse order of magnitude
 	// TODO: Add the method:
 	//   private void sortAndPrint(int numToPrint)
 	// and then call that method from setUp
+	private void sortAndPrint(int numToPrint) { // numToPrint helps declare the array size
+		// create new array from list of EarthquakeMarkers;
+		/* a[0] to a[aLength-1] is the array to sort */
+		int i,j;
+		int aLength = quakeMarkers.size(); // initialise to a's length
+		List<Marker> sortedQuakeMarkers = new ArrayList<Marker>();
+
+		/* advance the position through the entire array */
+		/*   (could do i < aLength-1 because single element is also min element) */
+		for (i = 0; i < aLength-1; i++)
+		{
+			/* find the min element in the unsorted a[i .. aLength-1] */
+
+			/* assume the min is the first element */
+			int jMin = i;
+			/* test against elements after i to find the smallest */
+			for (j = i+1; j < aLength; j++)
+			{
+				/* if this element is less, then it is the new minimum */
+				EarthquakeMarker a = (EarthquakeMarker)quakeMarkers.get(j);
+				EarthquakeMarker b = (EarthquakeMarker)quakeMarkers.get(jMin);
+				if (a.compareTo(b) < 0)
+				{
+					/* found new minimum; remember its index */
+					jMin = j;
+				}
+			}
+
+			if (jMin != i)
+			{
+				sortedQuakeMarkers.set(i, quakeMarkers.get(jMin));
+			}
+		}
+//		for (Marker z : sortedQuakeMarkers){
+//
+//		}
+		System.out.println(sortedQuakeMarkers);
+	}
 	
 	/** Event handler that gets called automatically when the 
 	 * mouse moves.
@@ -410,4 +448,8 @@ public class EarthquakeCityMap extends PApplet {
 		return false;
 	}
 
+	public static void main (String... args) {
+		module6.EarthquakeCityMap pt = new module6.EarthquakeCityMap();  // TODO compare to mod_6 (it is missing this function)
+		PApplet.runSketch(new String[]{"EarthquakeCityMap"}, pt);
+	}
 }
