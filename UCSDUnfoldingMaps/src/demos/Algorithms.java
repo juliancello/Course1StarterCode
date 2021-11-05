@@ -116,21 +116,23 @@ public class Algorithms{
 
 //    public int[] A = {70, 2, 97, 37, 58, 85, 21, 59, 57, 11, 15, 61, 93, 50, 5, 25, 24, 71, 30, 101}; // unsorted
 //    public List<Integer> A = Arrays.asList(70, 2, 97, 37, 58, 85, 21, 59, 57, 11, 15, 61, 93, 50, 5, 25, 24, 71, 30, 101);
-    public List<Integer> A = Arrays.asList(70, 2, 97, 37, 58, 85, 101);
+//    public List<Integer> A = Arrays.asList(70, 2, 97, 37, 58, 85, 101);
+//    public List<Integer> A = Arrays.asList(70, 2, 97, 101);  // sorts this correctly
+    public List<Integer> A = Arrays.asList(255, 560, 352, 32, 21, 103, 622, 709, 985, 743, 238, 340, 441, 73, 327, 909, 444, 774, 320, 437, 217, 532, 600, 535, 431, 416, 922, 6, 154, 143, 991, 393, 94, 832, 264, 188, 495, 363, 289, 981, 960, 730, 844, 681, 772, 457, 820, 765, 347, 284, 559, 110, 545, 900, 826, 868, 910, 288, 368, 682, 669, 148, 676, 827, 523, 461, 672, 211, 467, 93, 784, 596, 382, 690, 696, 204, 957, 22, 697, 835, 443, 412, 407, 728, 758, 901, 160, 539, 871, 230, 294, 345, 125, 620, 82, 140, 75, 898, 815, 453, 1001);
 
     public void swap( int first, int second, int ind1, int ind2 ) {
-        System.out.println("preswap A" + A);
+//        System.out.println("preswap A" + A);
         A.set(ind1, second);
         A.set(ind2, first);
-        System.out.println("postswap A" + A);
+//        System.out.println("postswap A" + A);
     }
 
     public int partition( int low, int high ) {
         int pivot = A.get(low);
         int i = low;
         int j = high;
-        System.out.println("pivot " + pivot);
-        while (i < j){
+//        System.out.println("pivot " + pivot);
+        while (i < j) {
             do {
                 i++;
 //                System.out.println("i " + i);
@@ -141,13 +143,15 @@ public class Algorithms{
 //                System.out.println("j " + j);
 //                System.out.println("A.get(j) " + A.get(j));
             } while (A.get(j) > pivot);
-            if (i < j){
-                System.out.println("swap1 ");
+            if (i < j) {
+//                System.out.println("swap1 ");
+//                System.out.println("i, j, low, high " + i + j + low + high);
                 swap(A.get(i), A.get(j), i, j);
             }
-        System.out.println("swap2 ");
-        swap(A.get(low), A.get(j), low, j);
         }
+//        System.out.println("swap2 ");
+//        System.out.println("i, j, low, high " + i + j + low + high);
+        swap(A.get(low), A.get(j), low, j);
 //        System.out.println("returning " + j);
         return j;
     }
@@ -155,11 +159,11 @@ public class Algorithms{
     public void quickSort(int low, int high) {
         if (low < high){
             int j = partition(low, high);
-            System.out.println("low " + low + " j " + j + " j+1 " + (j+1) + " high " + high);
+//            System.out.println("qs j, low, high "  + j + low + high);
             this.quickSort(low, j);
             this.quickSort((j+1), high);
         }
-        System.out.println("qs A" + A);
+        System.out.println("qs A " + A);
     }
 
     public void main2 () {
