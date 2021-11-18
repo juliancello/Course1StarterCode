@@ -144,43 +144,45 @@ public class EarthquakeCityMap extends PApplet {
 	// TODO: Add the method:
 	//   private void sortAndPrint(int numToPrint)
 	// and then call that method from setUp
-	private void sortAndPrint(int numToPrint) { // numToPrint helps declare the array size
-		// create new array from list of EarthquakeMarkers;
-		/* a[0] to a[aLength-1] is the array to sort */
-		int i,j;
-		int aLength = quakeMarkers.size(); // initialise to a's length
-		List<Marker> sortedQuakeMarkers = new ArrayList<Marker>();
 
-		/* advance the position through the entire array */
-		/*   (could do i < aLength-1 because single element is also min element) */
-		for (i = 0; i < aLength-1; i++)
-		{
-			/* find the min element in the unsorted a[i .. aLength-1] */
+	public void swap( int first, int second, int ind1, int ind2 ) {
+		A.set(ind1, second);
+		A.set(ind2, first);
+	}
 
-			/* assume the min is the first element */
-			int jMin = i;
-			/* test against elements after i to find the smallest */
-			for (j = i+1; j < aLength; j++)
-			{
-				/* if this element is less, then it is the new minimum */
-				EarthquakeMarker a = (EarthquakeMarker)quakeMarkers.get(j);
-				EarthquakeMarker b = (EarthquakeMarker)quakeMarkers.get(jMin);
-				if (a.compareTo(b) < 0)
-				{
-					/* found new minimum; remember its index */
-					jMin = j;
-				}
-			}
-
-			if (jMin != i)
-			{
-				sortedQuakeMarkers.set(i, quakeMarkers.get(jMin));
+	public int partition( int low, int high ) {
+		int pivot = A.get(low);
+		int i = low;
+		int j = high;
+		while (i < j) {
+			do {
+				i++;
+			} while (A.get(i) <= pivot);
+			do {
+				j--;
+			} while (A.get(j) > pivot);
+			if (i < j) {
+				swap(A.get(i), A.get(j), i, j);
 			}
 		}
-//		for (Marker z : sortedQuakeMarkers){
-//
-//		}
-		System.out.println(sortedQuakeMarkers);
+		swap(A.get(low), A.get(j), low, j);
+		return j;
+	}
+
+	public void quickSort(int low, int high) {
+		if (low < high){
+			int j = partition(low, high);
+			this.quickSort(low, j);
+			this.quickSort((j+1), high);
+		}
+		System.out.println("qs A " + A);
+	}
+
+	private void sortAndPrint(int numToPrint) { // numToPrint helps declare the array size
+		// create new array from list of Markers;
+		/* a[0] to a[aLength-1] is the array to sort */
+//		quickSort(0, (numToPrint);
+//		System.out.println(sortedQuakeMarkers);
 	}
 	
 	/** Event handler that gets called automatically when the 
