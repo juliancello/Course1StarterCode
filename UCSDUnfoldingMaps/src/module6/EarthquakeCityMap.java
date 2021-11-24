@@ -2,6 +2,7 @@ package module6;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -145,43 +146,41 @@ public class EarthquakeCityMap extends PApplet {
 	//   private void sortAndPrint(int numToPrint)
 	// and then call that method from setUp
 
-	public void swap( int first, int second, int ind1, int ind2 ) {
-		A.set(ind1, second);
-		A.set(ind2, first);
-	}
 
-	public int partition( int low, int high ) {
-		int pivot = A.get(low);
+	public int partition(List<EarthquakeMarker> listToSort, int low, int high) {
+//		int pivot = A.get(low); // get object
+		EarthquakeMarker pivot = listToSort.get(low);
 		int i = low;
 		int j = high;
 		while (i < j) {
 			do {
 				i++;
-			} while (A.get(i) <= pivot);
+			} while (listToSort.get(i).compareTo(pivot) <= 0); // <=; obj.mag is 1 or 0
 			do {
 				j--;
-			} while (A.get(j) > pivot);
+			} while (listToSort.get(j).compareTo(pivot) > 0); // >; obj.mag is -1
 			if (i < j) {
-				swap(A.get(i), A.get(j), i, j);
+				Collections.swap(listToSort, i, j);
 			}
 		}
-		swap(A.get(low), A.get(j), low, j);
+		Collections.swap(listToSort, low, j);
 		return j;
 	}
 
-	public void quickSort(int low, int high) {
+	public void quickSort(List<EarthquakeMarker> listToSort, int low, int high) {
 		if (low < high){
-			int j = partition(low, high);
-			this.quickSort(low, j);
-			this.quickSort((j+1), high);
+			int j = partition(listToSort, low, high);
+			this.quickSort(listToSort, low, j);
+			this.quickSort(listToSort, (j+1), high);
 		}
-		System.out.println("qs A " + A);
+		System.out.println("qs A " + listToSort);
 	}
 
-	private void sortAndPrint(int numToPrint) { // numToPrint helps declare the array size
+	private void sortAndPrint(int numToPrint, List<EarthquakeMarker> listToSort) { // numToPrint helps declare the array size
 		// create new array from list of Markers;
 		/* a[0] to a[aLength-1] is the array to sort */
-//		quickSort(0, (numToPrint);
+		List<Marker> sortedQuakeMarkers = new ArrayList<Marker>();
+		sortedQuakeMarkers = quickSort(listToSort, 0, numToPrint); // refactor to return list of objs
 //		System.out.println(sortedQuakeMarkers);
 	}
 	
