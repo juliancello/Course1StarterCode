@@ -19,6 +19,7 @@ import de.fhpotsdam.unfolding.providers.Microsoft;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
@@ -70,7 +71,7 @@ public class EarthquakeCityMap extends PApplet {
 	
 	public void setup() {		
 		// (1) Initializing canvas and map tiles
-		size(900, 700, OPENGL);
+		size(900, 700);
 		if (offline) {
 		    map = new UnfoldingMap(this, 200, 50, 650, 600, new MBTilesMapProvider(mbTilesString));
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
@@ -173,7 +174,7 @@ public class EarthquakeCityMap extends PApplet {
 			quickSort(listToSort, low, j);
 			quickSort(listToSort, (j+1), high);
 		}
-		System.out.println("qs A " + listToSort);
+//		System.out.println("qs A " + listToSort);
 	}
 
 	private void sortAndPrint(int numToPrint) { // numToPrint helps declare the array size
@@ -184,8 +185,20 @@ public class EarthquakeCityMap extends PApplet {
 		for (Marker marker : quakeMarkers) {
 			sortedQuakeMarkers.add((EarthquakeMarker) marker);
 		}
+		// TODO put placeholder marker at the end that stands in for infinity
 
-		quickSort(sortedQuakeMarkers, 0, numToPrint); // refactor to return list of objs
+		PointFeature infinityPlaceholder = new PointFeature();
+		// TODO copy last eq and increase magnitude to max
+
+
+		sortedQuakeMarkers.add(new LandQuakeMarker(infinityPlaceholder));  // FIXME
+		System.out.println("SQM size " + sortedQuakeMarkers.size());
+		for (int i = 0; i < numToPrint; i++) {
+			EarthquakeMarker marker = sortedQuakeMarkers.get(i);
+			System.out.println(marker.getTitle() + " Magnitude: " + marker.getMagnitude());
+		}  // debug
+
+		quickSort(sortedQuakeMarkers, 0, sortedQuakeMarkers.size()); // refactor to return list of objs
 
 		for (int i = 0; i < numToPrint; i++) {
 			EarthquakeMarker marker = sortedQuakeMarkers.get(i);
