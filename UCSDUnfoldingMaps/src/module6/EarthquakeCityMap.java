@@ -123,7 +123,7 @@ public class EarthquakeCityMap extends PApplet {
 
 	    // could be used for debugging
 	    printQuakes();
-	    sortAndPrint(1);
+	    sortAndPrint(10);
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
 	    //           for their geometric properties
@@ -176,12 +176,21 @@ public class EarthquakeCityMap extends PApplet {
 		System.out.println("qs A " + listToSort);
 	}
 
-	private void sortAndPrint(int numToPrint, List<EarthquakeMarker> listToSort) { // numToPrint helps declare the array size
+	private void sortAndPrint(int numToPrint) { // numToPrint helps declare the array size
 		// create new array from list of Markers;
 		/* a[0] to a[aLength-1] is the array to sort */
-		List<Marker> sortedQuakeMarkers = new ArrayList<Marker>();
-		sortedQuakeMarkers = quickSort(listToSort, 0, numToPrint); // refactor to return list of objs
-//		System.out.println(sortedQuakeMarkers);
+		List<EarthquakeMarker> sortedQuakeMarkers = new ArrayList<EarthquakeMarker>();
+
+		for (Marker marker : quakeMarkers) {
+			sortedQuakeMarkers.add((EarthquakeMarker) marker);
+		}
+
+		quickSort(sortedQuakeMarkers, 0, numToPrint); // refactor to return list of objs
+
+		for (int i = 0; i < numToPrint; i++) {
+			EarthquakeMarker marker = sortedQuakeMarkers.get(i);
+			System.out.println(marker.getTitle() + " Magnitude: " + marker.getMagnitude());
+		}
 	}
 	
 	/** Event handler that gets called automatically when the 
