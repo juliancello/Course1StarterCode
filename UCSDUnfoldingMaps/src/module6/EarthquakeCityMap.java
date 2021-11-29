@@ -170,8 +170,8 @@ public class EarthquakeCityMap extends PApplet {
 	public void quickSort(List<EarthquakeMarker> listToSort, int low, int high) {
 		if (low < high){
 			int j = partition(listToSort, low, high);
-			this.quickSort(listToSort, low, j);
-			this.quickSort(listToSort, (j+1), high);
+			quickSort(listToSort, low, j);
+			quickSort(listToSort, (j+1), high);
 		}
 		System.out.println("qs A " + listToSort);
 	}
