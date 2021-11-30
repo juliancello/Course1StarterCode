@@ -77,7 +77,7 @@ public class EarthquakeCityMap extends PApplet {
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
 		}
 		else if (googleIsBroken) {
-			map = new UnfoldingMap(this, 300, 100, 650, 600, new Microsoft.HybridProvider());
+			map = new UnfoldingMap(this, 300, 100, 1000, 800, new Microsoft.HybridProvider());
 		}
 		else {
 			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
@@ -143,13 +143,10 @@ public class EarthquakeCityMap extends PApplet {
 	}
 
 	// Use compareTo to sort earthquakes in reverse order of magnitude
-	// TODO: Add the method:
-	//   private void sortAndPrint(int numToPrint)
 	// and then call that method from setUp
 
 
-	public int partition(List<EarthquakeMarker> listToSort, int low, int high) {
-//		int pivot = A.get(low); // get object
+	public int partition(List<EarthquakeMarker> listToSort, int low, int high) {  // unused
 		EarthquakeMarker pivot = listToSort.get(low);
 		int i = low;
 		int j = high;
@@ -168,7 +165,7 @@ public class EarthquakeCityMap extends PApplet {
 		return j;
 	}
 
-	public void quickSort(List<EarthquakeMarker> listToSort, int low, int high) {
+	public void quickSort(List<EarthquakeMarker> listToSort, int low, int high) { // unused
 		if (low < high){
 			int j = partition(listToSort, low, high);
 			quickSort(listToSort, low, j);
@@ -185,25 +182,20 @@ public class EarthquakeCityMap extends PApplet {
 		for (Marker marker : quakeMarkers) {
 			sortedQuakeMarkers.add((EarthquakeMarker) marker);
 		}
-		// TODO put placeholder marker at the end that stands in for infinity
+//		Marker m = quakeMarkers.get(quakeMarkers.size() - 1);
+//		m.setProperty("magnitude", 20.0);
+//		sortedQuakeMarkers.add((EarthquakeMarker) m); // remember to remove this after sorting
 
-		PointFeature infinityPlaceholder = new PointFeature();
-		// TODO copy last eq and increase magnitude to max
+//		quickSort(sortedQuakeMarkers, 0, sortedQuakeMarkers.size() - 1);
+		Collections.sort(sortedQuakeMarkers);
 
-
-		sortedQuakeMarkers.add(new LandQuakeMarker(infinityPlaceholder));  // FIXME
-		System.out.println("SQM size " + sortedQuakeMarkers.size());
-		for (int i = 0; i < numToPrint; i++) {
-			EarthquakeMarker marker = sortedQuakeMarkers.get(i);
-			System.out.println(marker.getTitle() + " Magnitude: " + marker.getMagnitude());
-		}  // debug
-
-		quickSort(sortedQuakeMarkers, 0, sortedQuakeMarkers.size()); // refactor to return list of objs
+//		sortedQuakeMarkers.remove(quakeMarkers.size() - 1);
 
 		for (int i = 0; i < numToPrint; i++) {
 			EarthquakeMarker marker = sortedQuakeMarkers.get(i);
 			System.out.println(marker.getTitle() + " Magnitude: " + marker.getMagnitude());
 		}
+
 	}
 	
 	/** Event handler that gets called automatically when the 
@@ -237,6 +229,10 @@ public class EarthquakeCityMap extends PApplet {
 			if (marker.isInside(map,  mouseX, mouseY)) {
 				lastSelected = marker;
 				marker.setSelected(true);
+//				ellipse(mouseX, mouseY, 5, 5);
+//				System.out.println(map.getLocation(mouseX, mouseY));
+//				System.out.println(map.getScreenPosition(marker.getLocation()));
+//				System.out.println("marker " + m + " mouseX " + mouseX + " mouseY " + mouseY);
 				return;
 			}
 		}
