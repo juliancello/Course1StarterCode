@@ -1,18 +1,17 @@
 package module6;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.GeoJSONReader;
 import de.fhpotsdam.unfolding.data.PointFeature;
+import de.fhpotsdam.unfolding.data.ShapeFeature;
 import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.marker.AbstractShapeMarker;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
+import de.fhpotsdam.unfolding.marker.SimpleLinesMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.providers.Microsoft;
@@ -24,8 +23,9 @@ import processing.core.PGraphics;
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
  * Author: UC San Diego Intermediate Software Development MOOC team
- * @author Your name here
- * Date: July 17, 2015
+ * @author Julian Kosanovic
+ * Date: December 1, 2021
+ * My extension: when a city or earthquake is clicked, all airports within a 1,000 mile radius are displayed
  * */
 public class EarthquakeCityMap extends PApplet {
 	
@@ -68,6 +68,10 @@ public class EarthquakeCityMap extends PApplet {
 	// NEW IN MODULE 5
 	private CommonMarker lastSelected;
 	private CommonMarker lastClicked;
+
+	// Aiport extension
+	private List<Marker> airportList;
+	List<Marker> routeList;
 	
 	public void setup() {		
 		// (1) Initializing canvas and map tiles
@@ -109,8 +113,12 @@ public class EarthquakeCityMap extends PApplet {
 	    
 		//     STEP 3: read in earthquake RSS feed
 	    List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
+		List<PointFeature> features = ParseFeed.parseAirports(this, "airports.dat");
 	    quakeMarkers = new ArrayList<Marker>();
-	    
+
+		airportList = new ArrayList<Marker>();
+		HashMap<Integer, Location> airports = new HashMap<Integer, Location>();
+
 	    for(PointFeature feature : earthquakes) {
 		  //check if LandQuake
 		  if(isLand(feature)) {
@@ -122,6 +130,40 @@ public class EarthquakeCityMap extends PApplet {
 		  }
 	    }
 
+		for(PointFeature feature : features) {
+			AirportMarker m = new AirportMarker(feature);
+
+			m.setRadius(5);
+			// TODO change color of airports from black
+			airportList.add(m);
+
+			// put airport in hashmap with OpenFlights unique id for key
+			airports.put(Integer.parseInt(feature.getId()), feature.getLocation());
+
+		}
+
+		List<ShapeFeature> routes = ParseFeed.parseRoutes(this, "routes.dat");
+		routeList = new ArrayList<Marker>();
+		for(ShapeFeature route : routes) {
+
+			// get source and destination airportIds
+			int source = Integer.parseInt((String)route.getProperty("source"));
+			int dest = Integer.parseInt((String)route.getProperty("destination"));
+
+			// get locations for airports on route
+			if(airports.containsKey(source) && airports.containsKey(dest)) {
+				route.addLocation(airports.get(source));
+				route.addLocation(airports.get(dest));
+			}
+
+			SimpleLinesMarker sl = new SimpleLinesMarker(route.getLocations(), route.getProperties());
+
+//			System.out.println(sl.getProperties());
+
+			//UNCOMMENT IF YOU WANT TO SEE ALL ROUTES
+			//routeList.add(sl);
+		}
+
 	    // could be used for debugging
 	    printQuakes();
 	    sortAndPrint(10);
@@ -130,7 +172,9 @@ public class EarthquakeCityMap extends PApplet {
 	    //           for their geometric properties
 	    map.addMarkers(quakeMarkers);
 	    map.addMarkers(cityMarkers);
-	    
+		map.addMarkers(airportList);
+		//UNCOMMENT IF YOU WANT TO SEE ALL ROUTES
+//		map.addMarkers(routeList);
 	    
 	}  // End setup
 	
@@ -229,10 +273,6 @@ public class EarthquakeCityMap extends PApplet {
 			if (marker.isInside(map,  mouseX, mouseY)) {
 				lastSelected = marker;
 				marker.setSelected(true);
-//				ellipse(mouseX, mouseY, 5, 5);
-//				System.out.println(map.getLocation(mouseX, mouseY));
-//				System.out.println(map.getScreenPosition(marker.getLocation()));
-//				System.out.println("marker " + m + " mouseX " + mouseX + " mouseY " + mouseY);
 				return;
 			}
 		}
@@ -281,6 +321,7 @@ public class EarthquakeCityMap extends PApplet {
 						quakeMarker.setHidden(true);
 					}
 				}
+				// TODO hide all airports not within a 1,000 mile radius of city
 				return;
 			}
 		}		
@@ -308,6 +349,7 @@ public class EarthquakeCityMap extends PApplet {
 						mhide.setHidden(true);
 					}
 				}
+				// TODO hide all airports not within a 1,000 mile radius of earthquake
 				return;
 			}
 		}
@@ -321,6 +363,10 @@ public class EarthquakeCityMap extends PApplet {
 			
 		for(Marker marker : cityMarkers) {
 			marker.setHidden(false);
+		}
+
+		for(Marker marker: airportList) {  // TODO verify
+			marker.setHidden(true);
 		}
 	}
 	
