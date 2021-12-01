@@ -25,7 +25,8 @@ import processing.core.PGraphics;
  * Author: UC San Diego Intermediate Software Development MOOC team
  * @author Julian Kosanovic
  * Date: December 1, 2021
- * My extension: when a city or earthquake is clicked, all airports within a 1,000 mile radius are displayed
+ * My extension: when a city is clicked, all airports within a 500 mile radius are displayed. When an
+ * earthquake is clicked, all airports within a 1,000 mile radius are displayed
  * */
 public class EarthquakeCityMap extends PApplet {
 	
@@ -45,7 +46,8 @@ public class EarthquakeCityMap extends PApplet {
 	/** This is where to find the local tiles, for working without an Internet connection */
 	public static String mbTilesString = "blankLight-1-3.mbtiles";
 	
-	
+	public final int calX = 300; // calibrate both earthquakes and cities to 300, 100
+	public final int calY = 100;
 
 	//feed with magnitude 2.5+ Earthquakes
 	private String earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
@@ -133,8 +135,9 @@ public class EarthquakeCityMap extends PApplet {
 		for(PointFeature feature : features) {
 			AirportMarker m = new AirportMarker(feature);
 
+//			m.setColor(color(255, 255, 255));
 			m.setRadius(5);
-			// TODO change color of airports from black
+			m.setHidden(true);
 			airportList.add(m);
 
 			// put airport in hashmap with OpenFlights unique id for key
@@ -270,7 +273,7 @@ public class EarthquakeCityMap extends PApplet {
 		for (Marker m : markers) 
 		{
 			CommonMarker marker = (CommonMarker)m;
-			if (marker.isInside(map,  mouseX, mouseY)) {
+			if (marker.isInside(map,  mouseX + calX, mouseY + calY)) {
 				lastSelected = marker;
 				marker.setSelected(true);
 				return;
@@ -306,7 +309,7 @@ public class EarthquakeCityMap extends PApplet {
 		if (lastClicked != null) return;
 		// Loop over the earthquake markers to see if one of them is selected
 		for (Marker marker : cityMarkers) {
-			if (!marker.isHidden() && marker.isInside(map, mouseX, mouseY)) {
+			if (!marker.isHidden() && marker.isInside(map, mouseX + calX, mouseY + calY)) {
 				lastClicked = (CommonMarker)marker;
 				// Hide all the other earthquakes and hide
 				for (Marker mhide : cityMarkers) {
@@ -321,7 +324,11 @@ public class EarthquakeCityMap extends PApplet {
 						quakeMarker.setHidden(true);
 					}
 				}
-				// TODO hide all airports not within a 1,000 mile radius of city
+				for (Marker mshow : airportList) {
+					if (mshow.getDistanceTo(marker.getLocation()) <= 500) {
+						mshow.setHidden(false);
+					}
+				}
 				return;
 			}
 		}		
@@ -335,7 +342,7 @@ public class EarthquakeCityMap extends PApplet {
 		// Loop over the earthquake markers to see if one of them is selected
 		for (Marker m : quakeMarkers) {
 			EarthquakeMarker marker = (EarthquakeMarker)m;
-			if (!marker.isHidden() && marker.isInside(map, mouseX, mouseY)) {
+			if (!marker.isHidden() && marker.isInside(map, mouseX + calX, mouseY + calY)) {
 				lastClicked = marker;
 				// Hide all the other earthquakes and hide
 				for (Marker mhide : quakeMarkers) {
@@ -349,7 +356,11 @@ public class EarthquakeCityMap extends PApplet {
 						mhide.setHidden(true);
 					}
 				}
-				// TODO hide all airports not within a 1,000 mile radius of earthquake
+				for (Marker mshow : airportList) {
+					if (mshow.getDistanceTo(marker.getLocation()) <= 1000) {
+						mshow.setHidden(false);
+					}
+				}
 				return;
 			}
 		}
@@ -365,7 +376,7 @@ public class EarthquakeCityMap extends PApplet {
 			marker.setHidden(false);
 		}
 
-		for(Marker marker: airportList) {  // TODO verify
+		for(Marker marker: airportList) {
 			marker.setHidden(true);
 		}
 	}
@@ -378,7 +389,7 @@ public class EarthquakeCityMap extends PApplet {
 		int xbase = 25;
 		int ybase = 50;
 		
-		rect(xbase, ybase, 150, 250);
+		rect(xbase, ybase, 150, 290);
 		
 		fill(0);
 		textAlign(LEFT, CENTER);
@@ -398,7 +409,7 @@ public class EarthquakeCityMap extends PApplet {
 		
 		text("Land Quake", xbase+50, ybase+70);
 		text("Ocean Quake", xbase+50, ybase+90);
-		text("Size ~ Magnitude", xbase+25, ybase+110);
+		text("Size ~ Magnitude", xbase+25, ybase+115);
 		
 		fill(255, 255, 255);
 		ellipse(xbase+35, 
@@ -421,6 +432,9 @@ public class EarthquakeCityMap extends PApplet {
 		text("Deep", xbase+50, ybase+180);
 
 		text("Past hour", xbase+50, ybase+200);
+
+		text("Misc.", xbase+25, ybase+225);
+		text("Airport", xbase+50, ybase+250);
 		
 		fill(255, 255, 255);
 		int centerx = xbase+35;
@@ -431,7 +445,9 @@ public class EarthquakeCityMap extends PApplet {
 		line(centerx-8, centery-8, centerx+8, centery+8);
 		line(centerx-8, centery+8, centerx+8, centery-8);
 		
-		
+		// TODO add airport marker
+		fill(255, 255, 255);
+		ellipse(xbase+35, ybase+250, 12, 12);
 	}
 
 	

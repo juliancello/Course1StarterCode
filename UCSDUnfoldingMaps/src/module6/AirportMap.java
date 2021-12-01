@@ -29,7 +29,7 @@ public class AirportMap extends PApplet {
 	
 	public void setup() {
 		// setting up PAppler
-		size(800,600, OPENGL);
+		size(800,600);
 		
 		// setting up map and default events
 		map = new UnfoldingMap(this, 50, 50, 750, 550);
@@ -92,6 +92,9 @@ public class AirportMap extends PApplet {
 		map.draw();
 		
 	}
-	
+	public static void main (String... args) {
+		module6.AirportMap pt = new module6.AirportMap();  // TODO compare to mod_6 (it is missing this function)
+		PApplet.runSketch(new String[]{"Airport Map"}, pt);
+	}
 
 }
