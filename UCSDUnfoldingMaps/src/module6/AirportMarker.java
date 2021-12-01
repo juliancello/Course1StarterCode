@@ -24,7 +24,7 @@ public class AirportMarker extends CommonMarker {
 	
 	@Override
 	public void drawMarker(PGraphics pg, float x, float y) {
-		pg.fill(11);
+		pg.fill(255, 255, 255);
 		pg.ellipse(x, y, 5, 5);
 		
 		
