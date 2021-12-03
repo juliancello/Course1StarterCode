@@ -18,7 +18,6 @@ import de.fhpotsdam.unfolding.providers.Microsoft;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
-import processing.core.PGraphics;
 
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
@@ -41,17 +40,17 @@ public class EarthquakeCityMap extends PApplet {
 
 	// IF YOU ARE WORKING OFFILINE, change the value of this variable to true
 	private static final boolean offline = false;
-	private static final boolean googleIsBroken = true;
+	private static final boolean googleIsBroken = false;
 	
 	/** This is where to find the local tiles, for working without an Internet connection */
 	public static String mbTilesString = "blankLight-1-3.mbtiles";
 	
 	public final int calX = 300; // calibrate both earthquakes and cities to 300, 100
-	public final int calY = 100;
+	public final int calY = 100; // only use these when using microsoft map provider
 
 	//feed with magnitude 2.5+ Earthquakes
 	private String earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
-	
+
 	// The files containing city names and info and country names and info
 	private String cityFile = "city-data.json";
 	private String countryFile = "countries.geo.json";
@@ -94,11 +93,11 @@ public class EarthquakeCityMap extends PApplet {
 		
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
-		earthquakesURL = "test1.atom";
+//		earthquakesURL = "test1.atom";
 		//earthquakesURL = "test2.atom";
 		
 		// Uncomment this line to take the quiz
-		//earthquakesURL = "quiz2.atom";
+//		earthquakesURL = "quiz2.atom";
 		
 		
 		// (2) Reading in earthquake data and geometric properties
@@ -169,7 +168,7 @@ public class EarthquakeCityMap extends PApplet {
 
 	    // could be used for debugging
 	    printQuakes();
-	    sortAndPrint(10);
+	    sortAndPrint(quakeMarkers.size());
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
 	    //           for their geometric properties
@@ -445,7 +444,6 @@ public class EarthquakeCityMap extends PApplet {
 		line(centerx-8, centery-8, centerx+8, centery+8);
 		line(centerx-8, centery+8, centerx+8, centery-8);
 		
-		// TODO add airport marker
 		fill(255, 255, 255);
 		ellipse(xbase+35, ybase+250, 12, 12);
 	}

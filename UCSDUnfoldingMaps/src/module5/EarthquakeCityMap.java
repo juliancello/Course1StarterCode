@@ -41,7 +41,10 @@ public class EarthquakeCityMap extends PApplet {
 	
 	/** This is where to find the local tiles, for working without an Internet connection */
 	public static String mbTilesString = "blankLight-1-3.mbtiles";
-	
+
+	public final int calX = 300; // calibrate both earthquakes and cities to 300, 100
+	public final int calY = 100;
+
 	//feed with magnitude 2.5+ Earthquakes
 	private String earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
 	
@@ -151,10 +154,10 @@ public class EarthquakeCityMap extends PApplet {
 	// set the lastSelected to be the first marker found under the cursor
 	// Make sure you do not select two markers.
 	// 
-	private void selectMarkerIfHover(List<Marker> markers) // TODO compare to module_6's (different)
+	private void selectMarkerIfHover(List<Marker> markers)
 	{
 		for(Marker marker : markers){
-			if (marker.isInside(map, mouseX, mouseY)) {
+			if (marker.isInside(map, mouseX + calX, mouseY + calY)) {
 				{
 					marker.setSelected(true);
 					if(lastSelected==null)
@@ -171,7 +174,7 @@ public class EarthquakeCityMap extends PApplet {
 	 * where the city is in the threat circle
 	 */
 	@Override
-	public void mouseClicked()  // TODO compare to module_6's, including helper methods (different)
+	public void mouseClicked()
 	{
 		// Author: Hugo Huang
 		// Hint: You probably want a helper method or two to keep this code
@@ -202,7 +205,7 @@ public class EarthquakeCityMap extends PApplet {
 
 	private Marker checkEarthquakeMarker() {  // Shares functionality with checkEarthquakesForClick() line 236
 		for(Marker marker: quakeMarkers) {
-			if(marker.isInside(map, mouseX, mouseY)) {
+			if(marker.isInside(map, mouseX + calX, mouseY + calY)) {
 				lastClicked = (CommonMarker) marker;
 				return marker;
 			}
@@ -212,7 +215,7 @@ public class EarthquakeCityMap extends PApplet {
 
 	private Marker checkCityMarker() {  // Shares functionality with checkCitiesForClick() line 208
 		for(Marker marker: cityMarkers){
-			if(marker.isInside(map, mouseX, mouseY)) {
+			if(marker.isInside(map, mouseX + calX, mouseY + calY)) {
 				lastClicked = (CommonMarker) marker;
 				return marker;
 			}
@@ -415,7 +418,7 @@ public class EarthquakeCityMap extends PApplet {
 	}
 
 	public static void main (String... args) {
-		module5.EarthquakeCityMap pt = new module5.EarthquakeCityMap();  // TODO compare to mod_6 (it is missing this function)
+		module5.EarthquakeCityMap pt = new module5.EarthquakeCityMap();
 		PApplet.runSketch(new String[]{"EarthquakeCityMap"}, pt);
 	}
 
